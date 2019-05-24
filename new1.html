@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+    <div v-for="site in sites">
+        <label :for="site.name">{{site.qd}}</label>
+        <input v-model="site.offer" :name="site.name" type="checkbox">
+    </div>
+    <button @click="doSome">BUtton</button>
+    <p>{{Arr}}</p>
+    </div>
+<script>
+  new Vue({
+    el: '#app',
+    data: { 
+        sites : [
+    {qd:1,name:12,offer:false},
+    {qd:2,name:13,offer:false},
+    {qd:3,name:14,offer:false},
+    {qd:4,name:15,offer:false},
+    {qd:5,name:16,offer:false},
+    {qd:6,name:17,offer:false}
+    ],
+    Arr: []
+    },
+    methods: {
+    doSome: function() {
+        const pArr = this.sites.filter(site => site.offer == true)
+        console.log(pArr.__proto__ === this.sites.__proto__)
+        const arr = []
+        const obj = pArr
+        for(let i in obj){
+            arr.push([obj[i].qd,obj[i].name,obj[i].offer])
+        }
+        const arr1 = this.sites 
+       // var that = this
+        console.log(this.sites.__proto__ === arr1.__proto__)
+        axios.post('http://localhost:3001/w',arr).then(function (response){
+            console.log(response)
+            //console.log(that.sites)
+            for(let j in arr1){
+                arr1[j].offer = false
+            }
+        })
+        .catch(error => {
+            console.log(error)
+        })
+
+    }
+
+    }
+    })
+</script>
+</body>
+</html>

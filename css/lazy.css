@@ -1,0 +1,36 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+.lazy {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+}
+ .fa_img {
+    flex:0 1 23%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 1% 1%;
+    text-align: center;
+}
+.fa_img img {
+    vertical-align: middle;
+    max-width: 256px;
+}
+input[type="checkbox"] {
+    margin-top: 12px; 
+    width: 20px;
+    height: 20px;
+}
+.pagv {
+    margin: 16px 12px;
+}
+.but {
+    height: 36px;
+    width: 120px;
+    text-align: center;
+    line-height: 36px;
+    background: rgb(211, 144, 19);
+}

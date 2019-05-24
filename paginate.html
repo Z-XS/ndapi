@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <div v-for="(item,index) in Arr" :key="index">
+                <label for="dpi">
+                    {{item.qd}}//{{item.name}}
+                    <input type="checkbox" name="dip" v-model="item.offer">
+                </label>
+            </div>
+        </div>
+
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            layout="total,sizes,prev, pager, next"
+            :page-sizes="[1, 3, 5]"
+            :page-size='pageSize'
+            :current-page="page"
+            :total="total">
+          </el-pagination>
+          <div>
+              <button @click="Sumb">提交</button>
+          </div>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                page : 1,
+                pageSize : 3,
+                total : '',
+                ArrList : [
+                {qd:1,name:'xas',offer:false},
+                {qd:2,name:31,offer:false},
+                {qd:3,name:'sak',offer:false},
+                {qd:4,name:'qwre',offer:false},
+                {qd:5,name:'ggh',offer:false},
+                {qd:6,name:'phh',offer:false},
+                {qd:1,name:'xafas',offer:false},
+                {qd:5,name:'ggh',offer:false},
+                {qd:6,name:'phh',offer:false},
+                {qd:1,name:'xafas',offer:false},
+                {qd:2,name:'urt',offer:false},
+                {qd:3,name:'sdasak',offer:false},
+                {qd:4,name:'qwdre',offer:false},
+                {qd:5,name:'gvbch',offer:false},
+                {qd:6,name:'mmmh',offer:false}
+                ],
+                Arr : []
+            },
+            methods: {
+                handleSizeChange(val) {
+                    this.pageSize = val
+                    this.handleCurrentChange(1)
+                },
+                handleCurrentChange(page) {
+                    page = page - 1
+                    const ps = this.pageSize
+                    this.Arr = this.ArrList.slice(page*ps,ps*(page+1))
+                },
+                Sumb() {
+                    console.log(this.pageSize)
+                    const SubArr = this.ArrList.filter(item => item.offer == true)
+                    const obj = SubArr
+                    const arr = [] , arr1 = this.ArrList
+                    for(let i in obj){
+                        arr.push([obj[i].qd,obj[i].name,obj[i].offer])
+                    }
+                    axios.post('http://localhost:3001/hk',arr).then(
+                        response => {
+                            console.log(response)
+                            for(let j in arr1){
+                                arr1[j].offer = false
+                            }
+                        }
+                    ).catch(error => {
+                        console.log(error)
+                    })
+                }
+            },
+            created: function() {
+                this.handleCurrentChange(1)
+                this.total = this.ArrList.length
+            }
+        })
+    </script>
+</body>
+</html>

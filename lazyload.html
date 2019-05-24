@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/lazy.css">
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-lazyload/vue-lazyload.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <div class="lazy" v-lazy-container="{selector: 'img'}">
+            <div class="fa_img" v-for="(val,index) in datasrc">
+                <label><img width="100%" :data-src="val.src"></label>
+                <br>
+                <input type="checkbox" v-model="val.offer">
+                <div>
+                <input type="checkbox">
+        </div> -->
+    <div class="lazy">
+        <div class="fa_img" v-for="(val,index) in Arr" :style="{border:(val.offer?'2px solid red':'2px solid blue')}">
+            <label><img width="100%" v-lazy="val.src">
+            <br>
+            <input type="checkbox" v-model="val.offer">
+            </label>
+        </div>
+        </div>
+        <div class="pagv">
+        <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            layout="total,sizes,prev, pager, next"
+            :page-sizes="[60,120,160,200]"
+            :page-size='pageSize'
+            :current-page="page"
+            :total="total">
+            </el-pagination>
+        </div>
+        <div>
+            <button class="but" @click="Sumb">提交</button>
+        </div>
+    </div>
+    <script src="./datasrc/datasrc.js" type=""></script>
+    <script>
+        Vue.use(VueLazyload,{
+            error: "./images/timg.jpg" ,
+            loading: "./images/lazy.jpg"
+            })
+        new Vue({
+            el: '#app',
+            data: {
+                page : 1,
+                pageSize : 60,
+                total : '',
+                ArrList: [],
+                Arr : []
+            },
+            methods: {
+                handleSizeChange(val) {
+                    this.pageSize = val
+                    this.handleCurrentChange(1)
+                },
+                handleCurrentChange(page) {
+                    page = page - 1
+                    const ps = this.pageSize
+                    this.Arr = this.ArrList.slice(page*ps,ps*(page+1))
+                },
+                Sumb() {
+                    console.log(this.pageSize)
+                    const SubArr = this.ArrList.filter(item => item.offer == true)
+                    const obj = SubArr
+                    let arr = [] , arr1 = this.ArrList
+                    for(let i in obj){
+                        arr.push([obj[i].src,obj[i].name,obj[i].offer])
+                    }
+                    console.log(arr)
+                    // arr = JSON.stringify(arr)
+                    // axios.post('http://localhost:3001/npc',arr).then(
+                    axios.post('http://localhost:3001/w',arr).then(
+                        response => {
+                            console.log(response)
+                            for(let j in arr1){
+                                arr1[j].offer = false
+                            }
+                        }
+                    ).catch(error => {
+                        console.log(error)
+                    })
+                }
+            },
+            created:function(){
+                this.ArrList = Datasrc
+                this.handleCurrentChange(1)
+                this.total = this.ArrList.length
+                }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vue</title>
+<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{ message }}</p>
+    <p>{{ arr }}</p>
+    <input v-model="message">
+    <button @click="greet">BUTTON</button>
+</div>
+	
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    message: 'Runoob!',
+    name: 'aaaa',
+    arr: [1],
+    msg: {a:1}
+  },
+  methods: {
+    greet() {
+        // this.message = 3333
+        let d = this.msg.a
+        d = 'xdzsfbhjn'
+        console.log(typeof this.msg)
+        console.log(d instanceof this.msg)
+        const a = this.arr
+        a.push(2,3)
+        console.log(d,a)
+    }
+  }
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/lazy.css">
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-lazyload/vue-lazyload.js"></script>
+    <style>
+        .lazy {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .ldiv {
+            flex: 0 1 20%;
+            height: 200px;
+            margin: 10px 10px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="lazy" v-lazy-container="{selector: 'img'}">
+            <div class="ldiv" v-for="(val,index) in datasrc">{{index}}<div>
+        </div>
+    </div>
+    <script src="./datasrc/datasrc.js" type=""></script>
+    <script>
+        Vue.use(VueLazyload,{
+            loading: "./images/lazy.jpg",
+            error: "./images/timg.jpg"
+            
+        })
+        new Vue({
+            el: '#app',
+            data: {
+                datasrc: []
+            },
+            created:function(){
+                this.datasrc = Datasrc
+            }
+        })
+    </script>
+</body>
+</html>
